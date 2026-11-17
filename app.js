@@ -1677,15 +1677,15 @@ initializeApp();
 ===================================================== */
 
 /* =====================================================
-   FINANLAR - CONTROLE MENSAL DE OBRIGACOES E AMORTIZACAO
+   FINANLAR - CONTROLE MENSAL DE OBRIGACOES, AMORTIZACAO E RECUPERACAO
    Mantem a competencia original separada da data real de pagamento,
    suporta amortizacao integral/parcial, desconto de ate 100% (perdao
    de saldo sem pagamento ficticio), previa em tempo real e prevencao
    de duplicidade de operacoes.
 ===================================================== */
 
-let __lastOperationSignature = "";
-let __lastOperationTimestamp = 0;
+var __lastOperationSignature = "";
+var __lastOperationTimestamp = 0;
 
 function acquireOperationLock(signature) {
     const now = Date.now();
@@ -1760,11 +1760,89 @@ function formatPaymentHistorySummary(item) {
     }).join(" | ");
 }
 
+function getRecoveredUserSnapshot() {
+    return {"version":1,"transactions":[{"id":"fixed-claro-2026-09","name":"Plano Claro Celular","category":"Moradia","type":"expense","amount":50,"date":"2026-09-10","payment":"Pix","paid":true,"paidAmount":50,"discount":0,"payments":[{"id":"mwkp3ei6yruw3em","amount":50,"discount":0,"date":"2026-09-10","method":"Pix","forgiven":false}],"fixed":true,"competence":"2026-09","paidDate":"2026-09-10","updatedAt":"2026-11-17T12:55:17.550Z"},{"id":"fixed-wifi-2026-09","name":"Wifi","category":"Moradia","type":"expense","amount":100,"date":"2026-09-10","payment":"Pix","paid":true,"paidAmount":100,"discount":0,"payments":[{"id":"mwkp3j07r18q9lb","amount":100,"discount":0,"date":"2026-09-10","method":"Pix","forgiven":false}],"fixed":true,"competence":"2026-09","paidDate":"2026-09-10","updatedAt":"2026-11-17T12:55:23.383Z"},{"id":"mwkozucff46uhx6","name":"Escritório - Parcela 1/8","category":"Empréstimos","type":"expense","amount":500,"date":"2026-09-23","payment":"Pagamento de parcela","paid":true,"competence":"2026-09","obligationId":"loan-escritorio-1"},{"id":"mwkp019869fnbf8","name":"Escritório - Parcela 2/8","category":"Empréstimos","type":"expense","amount":500,"date":"2026-10-30","payment":"Pagamento de parcela","paid":true,"competence":"2026-10","obligationId":"loan-escritorio-2"},{"id":"mwkp18r995ps360","name":"Escritório - Parcela 3/8 (Amortização integral)","category":"Empréstimos","type":"expense","amount":416.67,"date":"2026-11-05","payment":"Amortização integral","paid":true,"competence":"2026-11","obligationId":"loan-escritorio-3"},{"id":"mwkp1ifmpe2vqo9","name":"Escritório - Parcela 4/8 (Amortização integral)","category":"Empréstimos","type":"expense","amount":416.67,"date":"2026-11-05","payment":"Amortização integral","paid":true,"competence":"2026-12","obligationId":"loan-escritorio-4"},{"id":"mwkp1quzv5r96nu","name":"Escritório - Parcela 5/8 (Amortização integral)","category":"Empréstimos","type":"expense","amount":416.66,"date":"2026-11-05","payment":"Amortização integral","paid":true,"competence":"2027-01","obligationId":"loan-escritorio-5"},{"id":"mwkp3sym7jocw5x","name":"Becker - Parcela 1/5","category":"Empréstimos","type":"expense","amount":75,"date":"2026-09-10","payment":"Pix","paid":true,"competence":"2026-09","obligationId":"loan-becker-1"},{"id":"mwkp4f6cpcl5455","name":"Combustível","category":"Transporte","type":"expense","amount":400,"date":"2026-09-15","payment":"Dinheiro","paid":false,"installmentId":null,"installmentNumber":1,"installmentCount":1},{"id":"mwkp4mq048v1xzw","name":"Mercado","category":"Alimentação","type":"expense","amount":1000,"date":"2026-09-01","payment":"Dinheiro","paid":false,"installmentId":null,"installmentNumber":1,"installmentCount":1},{"id":"fixed-claro-2026-10","name":"Plano Claro Celular","category":"Moradia","type":"expense","amount":50,"date":"2026-10-10","payment":"Pix","paid":true,"paidAmount":50,"discount":0,"payments":[{"id":"mwkvyycfn3zmvar","amount":50,"discount":0,"date":"2026-11-17","method":"Pix","forgiven":false}],"fixed":true,"competence":"2026-10","paidDate":"2026-11-17","updatedAt":"2026-11-17T16:07:47.295Z"},{"id":"fixed-wifi-2026-10","name":"Wifi","category":"Moradia","type":"expense","amount":100,"date":"2026-10-10","payment":"Não informado","paid":false,"paidAmount":0,"discount":0,"payments":[],"fixed":true,"competence":"2026-10"},{"id":"mwkp87yqhzoh9zc","name":"Empréstimo Nubank - Parcela 1/15","category":"Empréstimos","type":"expense","amount":468.66,"date":"2026-09-11","payment":"Pagamento de parcela","paid":true,"competence":"2026-09","obligationId":"loan-nubank-1"},{"id":"mwkp8u7e7gtnkau","name":"Empréstimo Nubank - Parcela 2/15 (Amortização integral)","category":"Empréstimos","type":"expense","amount":447.72,"date":"2026-10-13","payment":"Amortização integral","paid":true,"competence":"2026-10","obligationId":"loan-nubank-2"},{"id":"mwkp9s9f28i5rdg","name":"Empréstimo Nubank - Parcela 3/15 (Amortização integral)","category":"Empréstimos","type":"expense","amount":418.04,"date":"2026-11-11","payment":"Amortização integral","paid":true,"competence":"2026-11","obligationId":"loan-nubank-3"},{"id":"mwkpaod95tixhj6","name":"Empréstimo Nubank - Parcela 15/15 (Amortização integral)","category":"Empréstimos","type":"expense","amount":142.77,"date":"2026-11-11","payment":"Amortização integral","paid":true,"competence":"2027-11","obligationId":"loan-nubank-15"},{"id":"mwkpb82tz59l72o","name":"Empréstimo Nubank - Parcela 14/15 (Amortização integral)","category":"Empréstimos","type":"expense","amount":155.55,"date":"2026-10-11","payment":"Amortização integral","paid":true,"competence":"2027-10","obligationId":"loan-nubank-14"},{"id":"mwkpbw51906zmj5","name":"Empréstimo Nubank - Parcela 13/15 (Amortização integral)","category":"Empréstimos","type":"expense","amount":177.4,"date":"2026-09-13","payment":"Amortização integral","paid":true,"competence":"2027-09","obligationId":"loan-nubank-13"},{"id":"mwkpc9vo6v8yi67","name":"Becker - Parcela 2/5","category":"Empréstimos","type":"expense","amount":75,"date":"2026-10-15","payment":"Pagamento de parcela","paid":true,"competence":"2026-10","obligationId":"loan-becker-2"},{"id":"mwkpcivlf9voe9t","name":"Becker - Parcela 3/5","category":"Empréstimos","type":"expense","amount":75,"date":"2026-11-15","payment":"Pagamento de parcela","paid":true,"competence":"2026-11","obligationId":"loan-becker-3"},{"id":"mwkpctl9m4xc8xv","name":"Becker Celular - Parcela 1/9","category":"Empréstimos","type":"expense","amount":95,"date":"2026-11-15","payment":"Pagamento de parcela","paid":true,"competence":"2026-11","obligationId":"loan-becker-celular-1"},{"id":"mwkvz8fb30ivdaj","name":"Fatura Nubank","category":"Cartões e Crédito","type":"expense","amount":700,"date":"2026-11-17","payment":"Pix","paid":true,"obligationId":"nubank-monthly-bill","competence":"2026-10"}],"loans":[{"id":"loan-escritorio","name":"Escritório","amount":500,"count":8,"firstDate":"2026-09-30","day":30,"installments":[{"id":"loan-escritorio-1","number":1,"date":"2026-09-30","amount":500,"paid":true,"paidAmount":500,"discount":0,"paidDate":"2026-09-23","payments":[{"id":"mwkozucc5xdcajn","amount":500,"discount":0,"date":"2026-09-23","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T12:52:31.453Z"},{"id":"loan-escritorio-2","number":2,"date":"2026-10-30","amount":500,"paid":true,"paidAmount":500,"discount":0,"paidDate":"2026-10-30","payments":[{"id":"mwkp01989rdcibi","amount":500,"discount":0,"date":"2026-10-30","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T12:52:40.412Z"},{"id":"loan-escritorio-3","number":3,"date":"2026-11-30","amount":500,"paid":true,"paidAmount":416.67,"discount":83.33,"paidDate":"2026-11-05","payments":[{"id":"mwkp18r9egdlcog","amount":416.67,"discount":83.33,"date":"2026-11-05","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T12:53:36.789Z"},{"id":"loan-escritorio-4","number":4,"date":"2026-12-30","amount":500,"paid":true,"paidAmount":416.67,"discount":83.33,"paidDate":"2026-11-05","payments":[{"id":"mwkp1ifmcz3b0jk","amount":416.67,"discount":83.33,"date":"2026-11-05","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T12:53:49.330Z"},{"id":"loan-escritorio-5","number":5,"date":"2027-01-30","amount":500,"paid":true,"paidAmount":416.66,"discount":83.34,"paidDate":"2026-11-05","payments":[{"id":"mwkp1quzm0i5zbc","amount":416.66,"discount":83.34,"date":"2026-11-05","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T12:54:00.251Z"},{"id":"loan-escritorio-6","number":6,"date":"2027-02-28","amount":500,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-escritorio-7","number":7,"date":"2027-03-30","amount":500,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-escritorio-8","number":8,"date":"2027-04-30","amount":500,"paid":false,"paidAmount":0,"discount":0,"paidDate":null}]},{"id":"loan-nubank","name":"Empréstimo Nubank","amount":468.66,"count":15,"firstDate":"2026-09-11","day":11,"installments":[{"id":"loan-nubank-1","number":1,"date":"2026-09-11","amount":468.66,"paid":true,"paidAmount":468.66,"discount":0,"paidDate":"2026-09-11","payments":[{"id":"mwkp87yp4nz4me3","amount":468.66,"discount":0,"date":"2026-09-11","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T12:59:02.354Z"},{"id":"loan-nubank-2","number":2,"date":"2026-10-11","amount":468.66,"paid":true,"paidAmount":447.72,"discount":20.94,"paidDate":"2026-10-13","payments":[{"id":"mwkp8u7exnx8yvi","amount":447.72,"discount":20.94,"date":"2026-10-13","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T12:59:31.178Z"},{"id":"loan-nubank-3","number":3,"date":"2026-11-11","amount":468.66,"paid":true,"paidAmount":418.04,"discount":50.62,"paidDate":"2026-11-11","payments":[{"id":"mwkp9s9f5v0gj5i","amount":418.04,"discount":50.62,"date":"2026-11-11","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T13:00:15.315Z"},{"id":"loan-nubank-4","number":4,"date":"2026-12-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-5","number":5,"date":"2027-01-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-6","number":6,"date":"2027-02-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-7","number":7,"date":"2027-03-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-8","number":8,"date":"2027-04-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-9","number":9,"date":"2027-05-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-10","number":10,"date":"2027-06-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-11","number":11,"date":"2027-07-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-12","number":12,"date":"2027-08-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-13","number":13,"date":"2027-09-11","amount":468.66,"paid":true,"paidAmount":177.4,"discount":291.26,"paidDate":"2026-09-13","payments":[{"id":"mwkpbw51399jk7a","amount":177.4,"discount":291.26,"date":"2026-09-13","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T13:01:53.653Z"},{"id":"loan-nubank-14","number":14,"date":"2027-10-11","amount":468.66,"paid":true,"paidAmount":155.55,"discount":313.11,"paidDate":"2026-10-11","payments":[{"id":"mwkpb82tqmhua2u","amount":155.55,"discount":313.11,"date":"2026-10-11","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T13:01:22.469Z"},{"id":"loan-nubank-15","number":15,"date":"2027-11-11","amount":468.66,"paid":true,"paidAmount":142.77,"discount":325.89,"paidDate":"2026-11-11","payments":[{"id":"mwkpaod9txb714d","amount":142.77,"discount":325.89,"date":"2026-11-11","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T13:00:56.925Z"}]},{"id":"loan-becker","name":"Becker","amount":75,"count":5,"firstDate":"2026-09-15","day":15,"installments":[{"id":"loan-becker-1","number":1,"date":"2026-09-15","amount":75,"paid":true,"paidAmount":75,"discount":0,"paidDate":"2026-09-10","payments":[{"id":"mwkp3symp2nlh80","amount":75,"discount":0,"date":"2026-09-10","method":"Pix","forgiven":false}],"updatedAt":"2026-11-17T12:55:36.286Z"},{"id":"loan-becker-2","number":2,"date":"2026-10-15","amount":75,"paid":true,"paidAmount":75,"discount":0,"paidDate":"2026-10-15","payments":[{"id":"mwkpc9vowg4gfzr","amount":75,"discount":0,"date":"2026-10-15","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T13:02:11.460Z"},{"id":"loan-becker-3","number":3,"date":"2026-11-15","amount":75,"paid":true,"paidAmount":75,"discount":0,"paidDate":"2026-11-15","payments":[{"id":"mwkpcivl42i51y9","amount":75,"discount":0,"date":"2026-11-15","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T13:02:23.121Z"},{"id":"loan-becker-4","number":4,"date":"2026-12-15","amount":75,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-5","number":5,"date":"2027-01-15","amount":75,"paid":false,"paidAmount":0,"discount":0,"paidDate":null}]},{"id":"loan-becker-celular","name":"Becker Celular","amount":95,"count":9,"firstDate":"2026-11-15","day":15,"installments":[{"id":"loan-becker-celular-1","number":1,"date":"2026-11-15","amount":95,"paid":true,"paidAmount":95,"discount":0,"paidDate":"2026-11-15","payments":[{"id":"mwkpctl9wi5gn9p","amount":95,"discount":0,"date":"2026-11-15","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T13:02:37.005Z"},{"id":"loan-becker-celular-2","number":2,"date":"2026-12-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-3","number":3,"date":"2027-01-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-4","number":4,"date":"2027-02-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-5","number":5,"date":"2027-03-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-6","number":6,"date":"2027-04-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-7","number":7,"date":"2027-05-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-8","number":8,"date":"2027-06-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-9","number":9,"date":"2027-07-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null}]}],"cards":{"nubank":{"amount":700,"dueDate":"2026-10-10","paid":true,"paidDate":"2026-11-17","paidAmount":700,"discount":0,"payments":[{"id":"mwkvz8fb2qdrn3s","amount":700,"discount":0,"date":"2026-11-17","method":"Pix","forgiven":false}],"updatedAt":"2026-11-17T16:08:00.359Z"},"sicredi":{"amount":750,"paid":false,"paidDate":null}},"theme":"light"};
+}
 
-/* =====================================================
-   RECUPERACAO E PROTECAO AUTOMATICA DOS DADOS DO USUARIO
-===================================================== */
-function getRecoveredUserSnapshot() { return {"version":1,"transactions":[{"id":"fixed-claro-2026-09","name":"Plano Claro Celular","category":"Moradia","type":"expense","amount":50,"date":"2026-09-10","payment":"Pix","paid":true,"paidAmount":50,"discount":0,"payments":[{"id":"mwkp3ei6yruw3em","amount":50,"discount":0,"date":"2026-09-10","method":"Pix","forgiven":false}],"fixed":true,"competence":"2026-09","paidDate":"2026-09-10","updatedAt":"2026-11-17T12:55:17.550Z"},{"id":"fixed-wifi-2026-09","name":"Wifi","category":"Moradia","type":"expense","amount":100,"date":"2026-09-10","payment":"Pix","paid":true,"paidAmount":100,"discount":0,"payments":[{"id":"mwkp3j07r18q9lb","amount":100,"discount":0,"date":"2026-09-10","method":"Pix","forgiven":false}],"fixed":true,"competence":"2026-09","paidDate":"2026-09-10","updatedAt":"2026-11-17T12:55:23.383Z"},{"id":"mwkozucff46uhx6","name":"Escritório - Parcela 1/8","category":"Empréstimos","type":"expense","amount":500,"date":"2026-09-23","payment":"Pagamento de parcela","paid":true,"competence":"2026-09","obligationId":"loan-escritorio-1"},{"id":"mwkp019869fnbf8","name":"Escritório - Parcela 2/8","category":"Empréstimos","type":"expense","amount":500,"date":"2026-10-30","payment":"Pagamento de parcela","paid":true,"competence":"2026-10","obligationId":"loan-escritorio-2"},{"id":"mwkp18r995ps360","name":"Escritório - Parcela 3/8 (Amortização integral)","category":"Empréstimos","type":"expense","amount":416.67,"date":"2026-11-05","payment":"Amortização integral","paid":true,"competence":"2026-11","obligationId":"loan-escritorio-3"},{"id":"mwkp1ifmpe2vqo9","name":"Escritório - Parcela 4/8 (Amortização integral)","category":"Empréstimos","type":"expense","amount":416.67,"date":"2026-11-05","payment":"Amortização integral","paid":true,"competence":"2026-12","obligationId":"loan-escritorio-4"},{"id":"mwkp1quzv5r96nu","name":"Escritório - Parcela 5/8 (Amortização integral)","category":"Empréstimos","type":"expense","amount":416.66,"date":"2026-11-05","payment":"Amortização integral","paid":true,"competence":"2027-01","obligationId":"loan-escritorio-5"},{"id":"mwkp3sym7jocw5x","name":"Becker - Parcela 1/5","category":"Empréstimos","type":"expense","amount":75,"date":"2026-09-10","payment":"Pix","paid":true,"competence":"2026-09","obligationId":"loan-becker-1"},{"id":"mwkp4f6cpcl5455","name":"Combustível","category":"Transporte","type":"expense","amount":400,"date":"2026-09-15","payment":"Dinheiro","paid":false,"installmentId":null,"installmentNumber":1,"installmentCount":1},{"id":"mwkp4mq048v1xzw","name":"Mercado","category":"Alimentação","type":"expense","amount":1000,"date":"2026-09-01","payment":"Dinheiro","paid":false,"installmentId":null,"installmentNumber":1,"installmentCount":1},{"id":"fixed-claro-2026-10","name":"Plano Claro Celular","category":"Moradia","type":"expense","amount":50,"date":"2026-10-10","payment":"Não informado","paid":false,"paidAmount":0,"discount":0,"payments":[],"fixed":true,"competence":"2026-10"},{"id":"fixed-wifi-2026-10","name":"Wifi","category":"Moradia","type":"expense","amount":100,"date":"2026-10-10","payment":"Não informado","paid":false,"paidAmount":0,"discount":0,"payments":[],"fixed":true,"competence":"2026-10"},{"id":"mwkp87yqhzoh9zc","name":"Empréstimo Nubank - Parcela 1/15","category":"Empréstimos","type":"expense","amount":468.66,"date":"2026-09-11","payment":"Pagamento de parcela","paid":true,"competence":"2026-09","obligationId":"loan-nubank-1"},{"id":"mwkp8u7e7gtnkau","name":"Empréstimo Nubank - Parcela 2/15 (Amortização integral)","category":"Empréstimos","type":"expense","amount":447.72,"date":"2026-10-13","payment":"Amortização integral","paid":true,"competence":"2026-10","obligationId":"loan-nubank-2"},{"id":"mwkp9s9f28i5rdg","name":"Empréstimo Nubank - Parcela 3/15 (Amortização integral)","category":"Empréstimos","type":"expense","amount":418.04,"date":"2026-11-11","payment":"Amortização integral","paid":true,"competence":"2026-11","obligationId":"loan-nubank-3"},{"id":"mwkpaod95tixhj6","name":"Empréstimo Nubank - Parcela 15/15 (Amortização integral)","category":"Empréstimos","type":"expense","amount":142.77,"date":"2026-11-11","payment":"Amortização integral","paid":true,"competence":"2027-11","obligationId":"loan-nubank-15"},{"id":"mwkpb82tz59l72o","name":"Empréstimo Nubank - Parcela 14/15 (Amortização integral)","category":"Empréstimos","type":"expense","amount":155.55,"date":"2026-10-11","payment":"Amortização integral","paid":true,"competence":"2027-10","obligationId":"loan-nubank-14"},{"id":"mwkpbw51906zmj5","name":"Empréstimo Nubank - Parcela 13/15 (Amortização integral)","category":"Empréstimos","type":"expense","amount":177.4,"date":"2026-09-13","payment":"Amortização integral","paid":true,"competence":"2027-09","obligationId":"loan-nubank-13"},{"id":"mwkpc9vo6v8yi67","name":"Becker - Parcela 2/5","category":"Empréstimos","type":"expense","amount":75,"date":"2026-10-15","payment":"Pagamento de parcela","paid":true,"competence":"2026-10","obligationId":"loan-becker-2"},{"id":"mwkpcivlf9voe9t","name":"Becker - Parcela 3/5","category":"Empréstimos","type":"expense","amount":75,"date":"2026-11-15","payment":"Pagamento de parcela","paid":true,"competence":"2026-11","obligationId":"loan-becker-3"},{"id":"mwkpctl9m4xc8xv","name":"Becker Celular - Parcela 1/9","category":"Empréstimos","type":"expense","amount":95,"date":"2026-11-15","payment":"Pagamento de parcela","paid":true,"competence":"2026-11","obligationId":"loan-becker-celular-1"}],"loans":[{"id":"loan-escritorio","name":"Escritório","amount":500,"count":8,"firstDate":"2026-09-30","day":30,"installments":[{"id":"loan-escritorio-1","number":1,"date":"2026-09-30","amount":500,"paid":true,"paidAmount":500,"discount":0,"paidDate":"2026-09-23","payments":[{"id":"mwkozucc5xdcajn","amount":500,"discount":0,"date":"2026-09-23","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T12:52:31.453Z"},{"id":"loan-escritorio-2","number":2,"date":"2026-10-30","amount":500,"paid":true,"paidAmount":500,"discount":0,"paidDate":"2026-10-30","payments":[{"id":"mwkp01989rdcibi","amount":500,"discount":0,"date":"2026-10-30","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T12:52:40.412Z"},{"id":"loan-escritorio-3","number":3,"date":"2026-11-30","amount":500,"paid":true,"paidAmount":416.67,"discount":83.33,"paidDate":"2026-11-05","payments":[{"id":"mwkp18r9egdlcog","amount":416.67,"discount":83.33,"date":"2026-11-05","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T12:53:36.789Z"},{"id":"loan-escritorio-4","number":4,"date":"2026-12-30","amount":500,"paid":true,"paidAmount":416.67,"discount":83.33,"paidDate":"2026-11-05","payments":[{"id":"mwkp1ifmcz3b0jk","amount":416.67,"discount":83.33,"date":"2026-11-05","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T12:53:49.330Z"},{"id":"loan-escritorio-5","number":5,"date":"2027-01-30","amount":500,"paid":true,"paidAmount":416.66,"discount":83.34,"paidDate":"2026-11-05","payments":[{"id":"mwkp1quzm0i5zbc","amount":416.66,"discount":83.34,"date":"2026-11-05","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T12:54:00.251Z"},{"id":"loan-escritorio-6","number":6,"date":"2027-02-28","amount":500,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-escritorio-7","number":7,"date":"2027-03-30","amount":500,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-escritorio-8","number":8,"date":"2027-04-30","amount":500,"paid":false,"paidAmount":0,"discount":0,"paidDate":null}]},{"id":"loan-nubank","name":"Empréstimo Nubank","amount":468.66,"count":15,"firstDate":"2026-09-11","day":11,"installments":[{"id":"loan-nubank-1","number":1,"date":"2026-09-11","amount":468.66,"paid":true,"paidAmount":468.66,"discount":0,"paidDate":"2026-09-11","payments":[{"id":"mwkp87yp4nz4me3","amount":468.66,"discount":0,"date":"2026-09-11","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T12:59:02.354Z"},{"id":"loan-nubank-2","number":2,"date":"2026-10-11","amount":468.66,"paid":true,"paidAmount":447.72,"discount":20.94,"paidDate":"2026-10-13","payments":[{"id":"mwkp8u7exnx8yvi","amount":447.72,"discount":20.94,"date":"2026-10-13","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T12:59:31.178Z"},{"id":"loan-nubank-3","number":3,"date":"2026-11-11","amount":468.66,"paid":true,"paidAmount":418.04,"discount":50.62,"paidDate":"2026-11-11","payments":[{"id":"mwkp9s9f5v0gj5i","amount":418.04,"discount":50.62,"date":"2026-11-11","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T13:00:15.315Z"},{"id":"loan-nubank-4","number":4,"date":"2026-12-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-5","number":5,"date":"2027-01-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-6","number":6,"date":"2027-02-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-7","number":7,"date":"2027-03-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-8","number":8,"date":"2027-04-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-9","number":9,"date":"2027-05-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-10","number":10,"date":"2027-06-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-11","number":11,"date":"2027-07-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-12","number":12,"date":"2027-08-11","amount":468.66,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-nubank-13","number":13,"date":"2027-09-11","amount":468.66,"paid":true,"paidAmount":177.4,"discount":291.26,"paidDate":"2026-09-13","payments":[{"id":"mwkpbw51399jk7a","amount":177.4,"discount":291.26,"date":"2026-09-13","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T13:01:53.653Z"},{"id":"loan-nubank-14","number":14,"date":"2027-10-11","amount":468.66,"paid":true,"paidAmount":155.55,"discount":313.11,"paidDate":"2026-10-11","payments":[{"id":"mwkpb82tqmhua2u","amount":155.55,"discount":313.11,"date":"2026-10-11","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T13:01:22.469Z"},{"id":"loan-nubank-15","number":15,"date":"2027-11-11","amount":468.66,"paid":true,"paidAmount":142.77,"discount":325.89,"paidDate":"2026-11-11","payments":[{"id":"mwkpaod9txb714d","amount":142.77,"discount":325.89,"date":"2026-11-11","method":"Amortização integral","forgiven":false}],"updatedAt":"2026-11-17T13:00:56.925Z"}]},{"id":"loan-becker","name":"Becker","amount":75,"count":5,"firstDate":"2026-09-15","day":15,"installments":[{"id":"loan-becker-1","number":1,"date":"2026-09-15","amount":75,"paid":true,"paidAmount":75,"discount":0,"paidDate":"2026-09-10","payments":[{"id":"mwkp3symp2nlh80","amount":75,"discount":0,"date":"2026-09-10","method":"Pix","forgiven":false}],"updatedAt":"2026-11-17T12:55:36.286Z"},{"id":"loan-becker-2","number":2,"date":"2026-10-15","amount":75,"paid":true,"paidAmount":75,"discount":0,"paidDate":"2026-10-15","payments":[{"id":"mwkpc9vowg4gfzr","amount":75,"discount":0,"date":"2026-10-15","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T13:02:11.460Z"},{"id":"loan-becker-3","number":3,"date":"2026-11-15","amount":75,"paid":true,"paidAmount":75,"discount":0,"paidDate":"2026-11-15","payments":[{"id":"mwkpcivl42i51y9","amount":75,"discount":0,"date":"2026-11-15","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T13:02:23.121Z"},{"id":"loan-becker-4","number":4,"date":"2026-12-15","amount":75,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-5","number":5,"date":"2027-01-15","amount":75,"paid":false,"paidAmount":0,"discount":0,"paidDate":null}]},{"id":"loan-becker-celular","name":"Becker Celular","amount":95,"count":9,"firstDate":"2026-11-15","day":15,"installments":[{"id":"loan-becker-celular-1","number":1,"date":"2026-11-15","amount":95,"paid":true,"paidAmount":95,"discount":0,"paidDate":"2026-11-15","payments":[{"id":"mwkpctl9wi5gn9p","amount":95,"discount":0,"date":"2026-11-15","method":"Pagamento de parcela","forgiven":false}],"updatedAt":"2026-11-17T13:02:37.005Z"},{"id":"loan-becker-celular-2","number":2,"date":"2026-12-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-3","number":3,"date":"2027-01-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-4","number":4,"date":"2027-02-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-5","number":5,"date":"2027-03-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-6","number":6,"date":"2027-04-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-7","number":7,"date":"2027-05-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-8","number":8,"date":"2027-06-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null},{"id":"loan-becker-celular-9","number":9,"date":"2027-07-15","amount":95,"paid":false,"paidAmount":0,"discount":0,"paidDate":null}]}],"cards":{"nubank":{"amount":700,"dueDate":"2026-10-10","paid":false,"paidDate":null},"sicredi":{"amount":750,"paid":false,"paidDate":null}},"theme":"light"}; }
+function deduplicateAndSanitizeData(targetData) {
+    if (!targetData || typeof targetData !== "object") return false;
+    let changed = false;
+
+    const legacyDupTxIds = new Set([
+        "mwjordr6cnvcsou", "mwjoucwcb5tuxqr", "mwjoukzcj8vy4mj",
+        "mwjout9ia4vtpcs", "mwjovbrl1simjov", "mwjp0ctg4yrz742",
+        "mwjp31udkhgpvi0", "mwjp3je7urolpor", "mwjp3q5e70k0d58"
+    ]);
+    const legacyDupPayIds = new Set([
+        "mwjp31ud20szri2", "mwjp3je7xe6p908", "mwjp3q5e0nr7z4u",
+        "mwjoukzcjqank68", "mwjout9ihngtnke", "mwjovbrlo5ryzhx"
+    ]);
+
+    // 1. Limpar pagamentos duplicados dentro das parcelas de empréstimos
+    if (Array.isArray(targetData.loans)) {
+        targetData.loans.forEach(loan => {
+            (loan.installments || []).forEach(inst => {
+                if (Array.isArray(inst.payments) && inst.payments.length > 1) {
+                    const beforeLen = inst.payments.length;
+                    // Remover IDs de pagamentos legados duplicados se já houver outro pagamento na parcela
+                    const filtered = inst.payments.filter(p => !legacyDupPayIds.has(p.id));
+                    const candidates = filtered.length > 0 ? filtered : inst.payments;
+
+                    // Ordenar priorizando pagamentos que possuem discount definido
+                    const sorted = [...candidates].sort((a, b) => (Number(b.discount) || 0) - (Number(a.discount) || 0));
+                    const cleanPayments = [];
+                    let runningSettled = 0;
+                    const maxTotal = Number(inst.amount) || 0;
+
+                    sorted.forEach(p => {
+                        const pAmt = Number(p.amount) || 0;
+                        const pDisc = Number(p.discount) || 0;
+                        if (runningSettled < maxTotal - 0.009) {
+                            cleanPayments.push(p);
+                            runningSettled += pAmt + pDisc;
+                        }
+                    });
+
+                    if (cleanPayments.length !== beforeLen) {
+                        inst.payments = cleanPayments;
+                        changed = true;
+                    }
+                }
+            });
+        });
+    }
+
+    // 2. Limpar transações duplicadas por ID ou por obligationId de parcela já quitada
+    if (Array.isArray(targetData.transactions)) {
+        const beforeTxLen = targetData.transactions.length;
+        const hasModernObligationTx = new Set(
+            targetData.transactions
+                .filter(t => t.obligationId && !legacyDupTxIds.has(t.id))
+                .map(t => t.obligationId)
+        );
+
+        const seenIds = new Set();
+        const seenFullObligations = new Set();
+        const cleanTxs = [];
+
+        targetData.transactions.forEach(tx => {
+            if (!tx || !tx.id) return;
+            if (seenIds.has(tx.id)) return;
+            if (legacyDupTxIds.has(tx.id) && tx.obligationId && hasModernObligationTx.has(tx.obligationId)) {
+                return;
+            }
+            seenIds.add(tx.id);
+            cleanTxs.push(tx);
+        });
+
+        if (cleanTxs.length !== beforeTxLen) {
+            targetData.transactions = cleanTxs;
+            changed = true;
+        }
+    }
+
+    return changed;
+}
 
 function ensureRecoveredUserData() {
     if (!data || typeof data !== "object") return;
@@ -1775,55 +1853,62 @@ function ensureRecoveredUserData() {
         changed = true;
     }
 
-    // 1. Restaurar transacoes recuperadas que ainda nao estejam presentes (exceto se o usuario ja tiver aplicado e editado manualmente)
-    if (!data.recoveryAppliedV1) {
-        const existingTxIds = new Set(data.transactions.map(t => t.id));
-        const existingObIds = new Set(data.transactions.filter(t => t.obligationId).map(t => t.obligationId));
+    const snap = getRecoveredUserSnapshot();
+    const existingTxIds = new Set(data.transactions.map(t => t.id));
+    const existingObIds = new Set(data.transactions.filter(t => t.obligationId).map(t => t.obligationId));
 
-        (getRecoveredUserSnapshot().transactions || []).forEach(recTx => {
-            if (existingTxIds.has(recTx.id)) {
-                // Se for conta fixa que foi paga no snapshot recuperado, preservar o pagamento
-                const localTx = data.transactions.find(t => t.id === recTx.id);
-                if (localTx && recTx.paid && !localTx.paid) {
-                    Object.assign(localTx, JSON.parse(JSON.stringify(recTx)));
-                    changed = true;
-                }
-                return;
-            }
-            if (recTx.obligationId && existingObIds.has(recTx.obligationId)) {
-                return;
-            }
-            data.transactions.push(JSON.parse(JSON.stringify(recTx)));
-            changed = true;
-        });
-
-        // 2. Restaurar parcelas pagas/amortizadas nos emprestimos
-        if (Array.isArray(getRecoveredUserSnapshot().loans) && Array.isArray(data.loans)) {
-            getRecoveredUserSnapshot().loans.forEach(recLoan => {
-                const localLoan = data.loans.find(l => l.id === recLoan.id);
-                if (!localLoan) return;
-                (recLoan.installments || []).forEach(recInst => {
-                    const localInst = (localLoan.installments || []).find(i => i.id === recInst.id);
-                    if (!localInst) return;
-                    const recHasPayment = recInst.paid || (recInst.paidAmount > 0) || (recInst.discount > 0) || (Array.isArray(recInst.payments) && recInst.payments.length > 0);
-                    const localHasPayment = localInst.paid || (localInst.paidAmount > 0) || (localInst.discount > 0) || (Array.isArray(localInst.payments) && localInst.payments.length > 0);
-                    if (recHasPayment && !localHasPayment) {
-                        Object.assign(localInst, JSON.parse(JSON.stringify(recInst)));
-                        changed = true;
-                    }
-                });
-            });
-        }
-
-        // 3. Restaurar valor ajustado dos cartoes (ex: Sicredi 750)
-        if (getRecoveredUserSnapshot().cards && data.cards) {
-            if (getRecoveredUserSnapshot().cards.sicredi && data.cards.sicredi && data.cards.sicredi.amount === 500 && getRecoveredUserSnapshot().cards.sicredi.amount === 750) {
-                data.cards.sicredi.amount = 750;
+    (snap.transactions || []).forEach(recTx => {
+        if (existingTxIds.has(recTx.id)) {
+            const localTx = data.transactions.find(t => t.id === recTx.id);
+            if (localTx && recTx.paid && !localTx.paid) {
+                Object.assign(localTx, JSON.parse(JSON.stringify(recTx)));
                 changed = true;
             }
+            return;
         }
+        if (!data.recoveryAppliedV2) {
+            if (recTx.obligationId && existingObIds.has(recTx.obligationId)) return;
+            data.transactions.push(JSON.parse(JSON.stringify(recTx)));
+            existingTxIds.add(recTx.id);
+            if (recTx.obligationId) existingObIds.add(recTx.obligationId);
+            changed = true;
+        }
+    });
 
-        data.recoveryAppliedV1 = true;
+    if (Array.isArray(snap.loans) && Array.isArray(data.loans)) {
+        snap.loans.forEach(recLoan => {
+            const localLoan = data.loans.find(l => l.id === recLoan.id);
+            if (!localLoan) return;
+            (recLoan.installments || []).forEach(recInst => {
+                const localInst = (localLoan.installments || []).find(i => i.id === recInst.id);
+                if (!localInst) return;
+                const recHasPayment = recInst.paid || (recInst.paidAmount > 0) || (recInst.discount > 0) || (Array.isArray(recInst.payments) && recInst.payments.length > 0);
+                const localHasPayment = localInst.paid || (localInst.paidAmount > 0) || (localInst.discount > 0) || (Array.isArray(localInst.payments) && localInst.payments.length > 0);
+                if (recHasPayment && !localHasPayment) {
+                    Object.assign(localInst, JSON.parse(JSON.stringify(recInst)));
+                    changed = true;
+                }
+            });
+        });
+    }
+
+    if (snap.cards && data.cards) {
+        if (snap.cards.sicredi && data.cards.sicredi && data.cards.sicredi.amount === 500 && snap.cards.sicredi.amount === 750) {
+            data.cards.sicredi.amount = 750;
+            changed = true;
+        }
+        if (snap.cards.nubank && snap.cards.nubank.paid && data.cards.nubank && !data.cards.nubank.paid && data.cards.nubank.dueDate === snap.cards.nubank.dueDate) {
+            Object.assign(data.cards.nubank, JSON.parse(JSON.stringify(snap.cards.nubank)));
+            changed = true;
+        }
+    }
+
+    if (!data.recoveryAppliedV2) {
+        data.recoveryAppliedV2 = true;
+        changed = true;
+    }
+
+    if (deduplicateAndSanitizeData(data)) {
         changed = true;
     }
 
@@ -1834,7 +1919,7 @@ function ensureRecoveredUserData() {
 
 function normalizeFinancialState() {
     ensureRecoveredUserData();
-    let changed = false;
+    let changed = deduplicateAndSanitizeData(data);
     if (Array.isArray(data.loans)) {
         data.loans.forEach(loan => {
             (loan.installments || []).forEach(inst => {
@@ -2357,7 +2442,6 @@ function registerLoanPayment(loanId, installmentId, amount, discount = 0, paymen
     installment.paidDate = installment.paid ? paymentDate : null;
     installment.updatedAt = new Date().toISOString();
 
-    // Não gera pagamento fictício quando cleanAmount === 0 (ex: desconto de 100% / perdão de saldo)
     if (cleanAmount > 0) {
         const txLabel = cleanDiscount > 0
             ? `${loan.name} - Parcela ${installment.number}/${loan.count} (${method})`
