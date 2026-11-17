@@ -1,0 +1,1713 @@
+
+/* ==========================================
+   FINANLAR - CONTROLE FINANCEIRO RESIDENCIAL
+   STYLE.CSS
+========================================== */
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #eff6ff;
+    --secondary: #64748b;
+
+    --background: #f4f7fc;
+    --surface: #ffffff;
+    --surface-secondary: #f8fafc;
+
+    --text: #172033;
+    --text-secondary: #64748b;
+    --border: #e5eaf2;
+
+    --green: #16a34a;
+    --green-light: #dcfce7;
+
+    --red: #dc2626;
+    --red-light: #fee2e2;
+
+    --orange: #ea580c;
+    --orange-light: #ffedd5;
+
+    --purple: #7c3aed;
+    --shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+
+    --radius: 14px;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    font-size: 14px;
+    transition: background 0.3s, color 0.3s;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.2);
+    outline-offset: 2px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* ==========================================
+   MENU LATERAL
+========================================== */
+
+.sidebar {
+    width: 255px;
+    min-width: 255px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 25px 17px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 10px 35px;
+}
+
+.brand-icon {
+    width: 43px;
+    height: 43px;
+    background: linear-gradient(135deg, #2563eb, #60a5fa);
+    color: white;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-icon svg {
+    width: 25px;
+    height: 25px;
+}
+
+.brand h2 {
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.brand span {
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 14px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.nav-link svg {
+    width: 19px;
+    height: 19px;
+}
+
+.nav-link:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.nav-link.active {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 15px 8px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    border-top: 1px solid var(--border);
+}
+
+.sidebar-footer svg {
+    color: var(--green);
+    width: 17px;
+}
+
+
+/* ==========================================
+   CONTEÚDO PRINCIPAL
+========================================== */
+
+.main-content {
+    width: calc(100% - 255px);
+    margin-left: 255px;
+    padding: 28px 35px;
+    max-width: 1800px;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.topbar h1 {
+    font-size: 25px;
+    font-weight: 750;
+    margin-bottom: 5px;
+}
+
+.topbar p {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+.today-date {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.icon-button {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+    width: 39px;
+    height: 39px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.icon-button:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.icon-button svg {
+    width: 19px;
+    height: 19px;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+
+/* ==========================================
+   NAVEGAÇÃO DE MÊS
+========================================== */
+
+.month-navigation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 19px 22px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    gap: 15px;
+}
+
+.section-subtitle {
+    color: var(--primary);
+    font-size: 10px;
+    letter-spacing: 1px;
+    font-weight: 800;
+}
+
+.month-title h2 {
+    font-size: 20px;
+    margin-top: 5px;
+    text-transform: capitalize;
+}
+
+.month-controls {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.month-controls select,
+.month-controls input {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 10px;
+    height: 39px;
+}
+
+.month-controls select {
+    min-width: 115px;
+}
+
+.month-controls input {
+    width: 85px;
+}
+
+
+/* ==========================================
+   CARDS DE RESUMO
+========================================== */
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 19px;
+    margin-bottom: 23px;
+}
+
+.summary-card {
+    padding: 22px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    transition: transform 0.2s;
+}
+
+.summary-card:hover {
+    transform: translateY(-3px);
+}
+
+.summary-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 19px;
+}
+
+.summary-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.summary-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.income-card .summary-icon {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.expense-card .summary-icon {
+    background: var(--red-light);
+    color: var(--red);
+}
+
+.balance-card .summary-icon {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.summary-label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.summary-card h2 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 7px;
+    overflow-wrap: anywhere;
+}
+
+.income-card h2 {
+    color: var(--green);
+}
+
+.expense-card h2 {
+    color: var(--red);
+}
+
+.balance-card h2 {
+    color: var(--primary);
+}
+
+.summary-card p {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+
+/* ==========================================
+   PAINÉIS
+========================================== */
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 23px;
+    box-shadow: var(--shadow);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    gap: 12px;
+}
+
+.panel-header h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.panel-header p {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.panel-header > svg {
+    color: var(--primary);
+    width: 22px;
+    height: 22px;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.chart-container {
+    height: 220px;
+    max-width: 300px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 15px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+.quick-summary {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-detail {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 17px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 10px;
+}
+
+.summary-detail:last-child {
+    border-bottom: none;
+}
+
+.summary-detail span {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.summary-detail strong {
+    font-size: 14px;
+}
+
+
+/* ==========================================
+   SEÇÕES
+========================================== */
+
+.section-panel {
+    margin-bottom: 25px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.section-heading h2 {
+    font-size: 19px;
+    margin-bottom: 6px;
+}
+
+.section-heading p {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.section-heading > svg {
+    width: 25px;
+    color: var(--primary);
+}
+
+
+/* ==========================================
+   DESPESAS RÁPIDAS
+========================================== */
+
+.quick-expenses {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 23px;
+}
+
+.quick-label {
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.quick-expense-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid var(--border);
+    background: var(--surface-secondary);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.quick-expense-btn svg {
+    width: 15px;
+    height: 15px;
+    color: var(--primary);
+}
+
+.quick-expense-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+
+/* ==========================================
+   FORMULÁRIOS
+========================================== */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.form-group label {
+    color: var(--text);
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.form-group input,
+.form-group select,
+.table-filters input,
+.table-filters select {
+    width: 100%;
+    height: 43px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    background: var(--surface-secondary);
+    outline: none;
+    transition: 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.table-filters input:focus,
+.table-filters select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.09);
+}
+
+.form-group input::placeholder,
+.table-filters input::placeholder {
+    color: var(--secondary);
+}
+
+.installment-box {
+    margin-top: 22px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface-secondary);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.checkbox-label input {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--primary);
+}
+
+.installment-fields {
+    display: flex;
+    align-items: flex-end;
+    gap: 18px;
+    margin-top: 17px;
+    flex-wrap: wrap;
+}
+
+.installment-fields .form-group {
+    width: 190px;
+}
+
+.installment-preview {
+    color: var(--primary);
+    font-size: 12px;
+    padding-bottom: 12px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+
+/* ==========================================
+   BOTÕES
+========================================== */
+
+.btn-primary,
+.btn-secondary,
+.btn-export,
+.btn-credit-pay,
+.btn-credit-edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 17px;
+    border-radius: 9px;
+    font-weight: 700;
+    font-size: 12px;
+    transition: 0.2s;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--surface-secondary);
+    color: var(--text-secondary);
+    border-color: var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--border);
+}
+
+.btn-export {
+    background: var(--green-light);
+    color: var(--green);
+    border-color: transparent;
+}
+
+.btn-export:hover {
+    background: var(--green);
+    color: white;
+}
+
+.btn-primary svg,
+.btn-secondary svg,
+.btn-export svg {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* ==========================================
+   CARTÕES DE CRÉDITO
+========================================== */
+
+.credit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.credit-card {
+    padding: 23px;
+    border-radius: 15px;
+    color: white;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.nubank-card {
+    background: linear-gradient(135deg, #6423a5, #9333ea);
+}
+
+.sicredi-card {
+    background: linear-gradient(135deg, #087443, #16a34a);
+}
+
+.credit-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.credit-card-top h3 {
+    font-size: 19px;
+    margin-top: 6px;
+}
+
+.credit-card-top > svg {
+    width: 32px;
+    height: 32px;
+    opacity: 0.8;
+}
+
+.credit-label {
+    font-size: 9px;
+    letter-spacing: 1.3px;
+    opacity: 0.8;
+}
+
+.credit-value {
+    margin: 27px 0 20px;
+}
+
+.credit-value span,
+.credit-info span {
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+.credit-value h2 {
+    font-size: 29px;
+    margin-top: 6px;
+}
+
+.credit-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 15px;
+}
+
+.credit-info strong {
+    font-size: 12px;
+}
+
+.credit-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.btn-credit-pay,
+.btn-credit-edit {
+    flex: 1;
+    min-width: 120px;
+}
+
+.btn-credit-pay {
+    background: white;
+    color: #166534;
+}
+
+.btn-credit-edit {
+    background: rgba(255,255,255,0.16);
+    color: white;
+    border-color: rgba(255,255,255,0.25);
+}
+
+.btn-credit-pay:hover {
+    background: #dcfce7;
+}
+
+.btn-credit-edit:hover {
+    background: rgba(255,255,255,0.28);
+}
+
+
+/* ==========================================
+   EMPRÉSTIMOS
+========================================== */
+
+.loan-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 13px;
+    margin-bottom: 23px;
+}
+
+.loan-summary-item {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border);
+    padding: 16px;
+    border-radius: 10px;
+}
+
+.loan-summary-item span {
+    display: block;
+    color: var(--text-secondary);
+    font-size: 11px;
+    margin-bottom: 9px;
+}
+
+.loan-summary-item strong {
+    font-size: 18px;
+    overflow-wrap: anywhere;
+}
+
+.loan-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.loan-group {
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    overflow: hidden;
+}
+
+.loan-group-header {
+    padding: 16px;
+    background: var(--surface-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.loan-group-header h4 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.loan-group-header p {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.loan-group-total {
+    color: var(--primary);
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.loan-installment {
+    padding: 14px 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.loan-installment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.loan-installment-info strong {
+    font-size: 12px;
+}
+
+.loan-installment-info span {
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+.loan-installment-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.loan-installment-actions button {
+    padding: 8px 11px;
+    border-radius: 7px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.loan-installment-actions button:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.loan-installment-actions .pay-button {
+    background: var(--green-light);
+    color: var(--green);
+    border-color: transparent;
+}
+
+.loan-installment-actions .amortize-button {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: transparent;
+}
+
+.loan-installment.paid {
+    opacity: 0.65;
+}
+
+.loan-installment.paid .pay-button {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.status-paid {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+/* ==========================================
+   CONTAS FIXAS
+========================================== */
+
+.fixed-bills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.fixed-bill-card {
+    padding: 17px;
+    border: 1px solid var(--border);
+    background: var(--surface-secondary);
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.fixed-bill-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fixed-bill-icon svg {
+    width: 21px;
+}
+
+.fixed-bill-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.fixed-bill-info h4 {
+    font-size: 13px;
+}
+
+.fixed-bill-info span {
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+.fixed-bill-info strong {
+    color: var(--primary);
+    font-size: 15px;
+}
+
+.fixed-bill-status {
+    color: var(--green);
+    background: var(--green-light);
+    padding: 6px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.fixed-bills-footer {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    margin-top: 17px;
+}
+
+.fixed-bills-footer svg {
+    width: 16px;
+    color: var(--primary);
+}
+
+
+/* ==========================================
+   TABELA DE LANÇAMENTOS
+========================================== */
+
+.transactions-header {
+    flex-wrap: wrap;
+}
+
+.table-filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 19px;
+}
+
+.search-box {
+    position: relative;
+    flex: 1;
+    max-width: 400px;
+}
+
+.search-box svg {
+    position: absolute;
+    width: 17px;
+    left: 12px;
+    top: 13px;
+    color: var(--text-secondary);
+}
+
+.search-box input {
+    padding-left: 39px;
+}
+
+.table-filters select {
+    width: 155px;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 750px;
+}
+
+.transactions-table th {
+    text-align: left;
+    padding: 13px 12px;
+    background: var(--surface-secondary);
+    color: var(--text-secondary);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.transactions-table td {
+    padding: 15px 12px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+}
+
+.transactions-table tbody tr:hover {
+    background: var(--surface-secondary);
+}
+
+.empty-table {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 35px !important;
+}
+
+.transaction-name {
+    font-weight: 700;
+}
+
+.transaction-type {
+    padding: 6px 9px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.type-income {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.type-expense {
+    background: var(--red-light);
+    color: var(--red);
+}
+
+.value-income {
+    color: var(--green);
+    font-weight: 800;
+}
+
+.value-expense {
+    color: var(--red);
+    font-weight: 800;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.action-buttons button {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-secondary);
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-buttons button:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.action-buttons button.delete:hover {
+    color: var(--red);
+    border-color: var(--red);
+}
+
+.action-buttons svg {
+    width: 14px;
+    height: 14px;
+}
+
+.table-footer {
+    padding-top: 15px;
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+
+/* ==========================================
+   MODAIS
+========================================== */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.58);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(3px);
+}
+
+.modal-container {
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    animation: modalShow 0.2s ease;
+}
+
+@keyframes modalShow {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h3 {
+    font-size: 17px;
+}
+
+.modal-body {
+    padding: 22px;
+}
+
+.modal-body .form-group {
+    margin-bottom: 16px;
+}
+
+.modal-footer {
+    padding: 17px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+}
+
+.modal-body p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 13px;
+}
+
+.modal-body strong {
+    color: var(--primary);
+}
+
+.modal-body input,
+.modal-body select {
+    width: 100%;
+    height: 43px;
+    padding: 10px;
+    border: 1px solid var(--border);
+    background: var(--surface-secondary);
+    color: var(--text);
+    border-radius: 8px;
+}
+
+
+/* ==========================================
+   NOTIFICAÇÕES
+========================================== */
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    border-left: 4px solid var(--green);
+    padding: 15px 19px;
+    border-radius: 9px;
+    min-width: 240px;
+    max-width: 350px;
+    animation: toastShow 0.25s ease;
+    font-size: 12px;
+}
+
+.toast.error {
+    border-left-color: var(--red);
+}
+
+.toast.warning {
+    border-left-color: var(--orange);
+}
+
+@keyframes toastShow {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* ==========================================
+   RODAPÉ
+========================================== */
+
+.app-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 22px 5px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    flex-wrap: wrap;
+}
+
+.app-footer span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.app-footer svg {
+    width: 14px;
+    color: var(--green);
+}
+
+
+/* ==========================================
+   TEMA ESCURO
+========================================== */
+
+body.dark-theme {
+    --background: #0f172a;
+    --surface: #1e293b;
+    --surface-secondary: #263449;
+
+    --text: #f1f5f9;
+    --text-secondary: #a5b4c8;
+    --border: #334155;
+
+    --primary-light: #253c63;
+    --green-light: #153d31;
+    --red-light: #48242b;
+    --orange-light: #49321f;
+
+    --shadow: 0 4px 18px rgba(0,0,0,0.15);
+}
+
+body.dark-theme .nav-link:hover,
+body.dark-theme .nav-link.active {
+    background: var(--primary-light);
+}
+
+body.dark-theme .summary-card,
+body.dark-theme .panel,
+body.dark-theme .sidebar,
+body.dark-theme .month-navigation {
+    box-shadow: var(--shadow);
+}
+
+body.dark-theme .form-group input,
+body.dark-theme .form-group select,
+body.dark-theme .month-controls input,
+body.dark-theme .month-controls select,
+body.dark-theme .table-filters input,
+body.dark-theme .table-filters select,
+body.dark-theme .modal-body input,
+body.dark-theme .modal-body select {
+    color: var(--text);
+    background: var(--surface-secondary);
+    color-scheme: dark;
+}
+
+body.dark-theme .transactions-table th {
+    background: #263449;
+}
+
+body.dark-theme .btn-secondary,
+body.dark-theme .action-buttons button {
+    background: var(--surface-secondary);
+    color: var(--text);
+}
+
+body.dark-theme .loan-installment-actions button {
+    background: var(--surface-secondary);
+    color: var(--text);
+}
+
+body.dark-theme .loan-installment-actions .pay-button {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+body.dark-theme .loan-installment-actions .amortize-button {
+    background: var(--primary-light);
+    color: #93c5fd;
+}
+
+body.dark-theme .fixed-bill-status {
+    background: var(--green-light);
+    color: #86efac;
+}
+
+body.dark-theme .btn-export {
+    background: var(--green-light);
+    color: #86efac;
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE - TABLETS
+========================================== */
+
+@media (max-width: 1100px) {
+
+    .main-content {
+        padding: 25px 20px;
+    }
+
+    .sidebar {
+        width: 220px;
+        min-width: 220px;
+    }
+
+    .main-content {
+        width: calc(100% - 220px);
+        margin-left: 220px;
+    }
+
+    .summary-card {
+        padding: 17px;
+    }
+
+    .summary-card h2 {
+        font-size: 22px;
+    }
+
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE - CELULARES
+========================================== */
+
+@media (max-width: 760px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        width: 270px;
+        min-width: 270px;
+        box-shadow: 5px 0 25px rgba(0,0,0,0.1);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+        padding: 18px 14px;
+    }
+
+    .mobile-menu {
+        display: inline-flex;
+    }
+
+    .topbar {
+        margin-bottom: 22px;
+    }
+
+    .topbar h1 {
+        font-size: 20px;
+    }
+
+    .topbar p {
+        font-size: 11px;
+    }
+
+    .today-date {
+        display: none;
+    }
+
+    .month-navigation {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 16px;
+    }
+
+    .month-controls {
+        justify-content: space-between;
+    }
+
+    .month-controls select {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .month-controls input {
+        width: 70px;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .summary-card {
+        padding: 18px;
+    }
+
+    .summary-top {
+        margin-bottom: 12px;
+    }
+
+    .summary-card h2 {
+        font-size: 24px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .panel {
+        padding: 17px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-expenses {
+        gap: 7px;
+    }
+
+    .quick-label {
+        width: 100%;
+    }
+
+    .quick-expense-btn {
+        padding: 8px 10px;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+
+    .credit-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .loan-summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .loan-summary-item {
+        padding: 13px;
+    }
+
+    .fixed-bills-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .fixed-bill-card {
+        padding: 13px;
+    }
+
+    .fixed-bill-status {
+        margin-left: auto;
+    }
+
+    .transactions-header {
+        align-items: flex-start;
+    }
+
+    .table-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box {
+        max-width: none;
+    }
+
+    .table-filters select {
+        width: 100%;
+    }
+
+    .btn-export {
+        width: 100%;
+    }
+
+    .app-footer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .installment-fields {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .installment-fields .form-group {
+        width: 100%;
+    }
+
+}
+
+
+/* ==========================================
+   CELULARES PEQUENOS
+========================================== */
+
+@media (max-width: 380px) {
+
+    .main-content {
+        padding: 13px 10px;
+    }
+
+    .topbar h1 {
+        font-size: 17px;
+    }
+
+    .month-controls {
+        gap: 5px;
+    }
+
+    .month-controls input {
+        width: 60px;
+    }
+
+    .month-controls select {
+        font-size: 11px;
+        padding: 7px;
+    }
+
+    .credit-card {
+        padding: 17px;
+    }
+
+    .credit-actions {
+        flex-direction: column;
+    }
+
+    .credit-actions button {
+        width: 100%;
+    }
+
+}
