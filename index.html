@@ -1,0 +1,738 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="FinanLar - Controle financeiro residencial">
+    <title>FinanLar | Controle Financeiro Residencial</title>
+
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Gráficos Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <!-- MENU LATERAL -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">
+                <i data-lucide="wallet"></i>
+            </div>
+            <div>
+                <h2>FinanLar</h2>
+                <span>Controle Financeiro</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="#inicio" class="nav-link active">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Visão Geral</span>
+            </a>
+
+            <a href="#lancamentos" class="nav-link">
+                <i data-lucide="arrow-left-right"></i>
+                <span>Lançamentos</span>
+            </a>
+
+            <a href="#cartoes" class="nav-link">
+                <i data-lucide="credit-card"></i>
+                <span>Cartões e Limites</span>
+            </a>
+
+            <a href="#emprestimos" class="nav-link">
+                <i data-lucide="hand-coins"></i>
+                <span>Empréstimos</span>
+            </a>
+
+            <a href="#contas-fixas" class="nav-link">
+                <i data-lucide="calendar-days"></i>
+                <span>Contas Fixas</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <i data-lucide="shield-check"></i>
+            <span>Seus dados salvos no dispositivo</span>
+        </div>
+
+    </aside>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main-content">
+
+        <!-- CABEÇALHO -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+                <button class="icon-button mobile-menu" id="menuToggle" aria-label="Abrir menu">
+                    <i data-lucide="menu"></i>
+                </button>
+
+                <div>
+                    <h1>Visão Geral</h1>
+                    <p>Bem-vindo ao seu controle financeiro residencial.</p>
+                </div>
+            </div>
+
+            <div class="topbar-actions">
+                <span class="today-date" id="todayDate"></span>
+
+                <button class="icon-button" id="themeToggle" title="Alternar tema" aria-label="Alternar tema">
+                    <i data-lucide="moon"></i>
+                </button>
+            </div>
+
+        </header>
+
+
+        <!-- NAVEGAÇÃO DE MÊS -->
+        <section class="month-navigation">
+
+            <div class="month-title">
+                <div>
+                    <span class="section-subtitle">PERÍODO FINANCEIRO</span>
+                    <h2 id="currentMonthTitle">Setembro de 2026</h2>
+                </div>
+            </div>
+
+            <div class="month-controls">
+
+                <button class="icon-button" id="prevMonth" title="Mês anterior">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+
+                <select id="monthSelect" aria-label="Selecionar mês">
+                    <option value="0">Janeiro</option>
+                    <option value="1">Fevereiro</option>
+                    <option value="2">Março</option>
+                    <option value="3">Abril</option>
+                    <option value="4">Maio</option>
+                    <option value="5">Junho</option>
+                    <option value="6">Julho</option>
+                    <option value="7">Agosto</option>
+                    <option value="8">Setembro</option>
+                    <option value="9">Outubro</option>
+                    <option value="10">Novembro</option>
+                    <option value="11">Dezembro</option>
+                </select>
+
+                <input type="number" id="yearSelect" value="2026" min="2000" max="2100" aria-label="Ano">
+
+                <button class="icon-button" id="nextMonth" title="Próximo mês">
+                    <i data-lucide="chevron-right"></i>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- CARDS FINANCEIROS -->
+        <section class="summary-grid" id="inicio">
+
+            <article class="summary-card income-card">
+                <div class="summary-top">
+                    <div class="summary-icon">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <span class="summary-label">Total de Entradas</span>
+                </div>
+
+                <h2 id="totalIncome">R$ 0,00</h2>
+                <p>Receitas do mês</p>
+            </article>
+
+
+            <article class="summary-card expense-card">
+                <div class="summary-top">
+                    <div class="summary-icon">
+                        <i data-lucide="trending-down"></i>
+                    </div>
+                    <span class="summary-label">Total de Despesas</span>
+                </div>
+
+                <h2 id="totalExpenses">R$ 0,00</h2>
+                <p>Despesas do mês</p>
+            </article>
+
+
+            <article class="summary-card balance-card">
+                <div class="summary-top">
+                    <div class="summary-icon">
+                        <i data-lucide="wallet"></i>
+                    </div>
+                    <span class="summary-label">Saldo Atual</span>
+                </div>
+
+                <h2 id="currentBalance">R$ 0,00</h2>
+                <p>Resultado financeiro do mês</p>
+            </article>
+
+        </section>
+
+
+        <!-- GRÁFICO E RESUMO -->
+        <section class="dashboard-grid">
+
+            <article class="panel chart-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Distribuição Financeira</h3>
+                        <p>Entradas e despesas do período</p>
+                    </div>
+                    <i data-lucide="chart-pie"></i>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="financeChart"></canvas>
+                </div>
+
+                <div id="chartLegend" class="chart-legend"></div>
+
+            </article>
+
+
+            <article class="panel quick-summary">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Resumo do Mês</h3>
+                        <p>Seu desempenho financeiro</p>
+                    </div>
+                    <i data-lucide="clipboard-list"></i>
+                </div>
+
+                <div class="summary-detail">
+                    <span>Quantidade de lançamentos</span>
+                    <strong id="totalTransactions">0</strong>
+                </div>
+
+                <div class="summary-detail">
+                    <span>Contas pendentes</span>
+                    <strong id="pendingBills">0</strong>
+                </div>
+
+                <div class="summary-detail">
+                    <span>Parcelas pendentes</span>
+                    <strong id="pendingInstallments">0</strong>
+                </div>
+
+                <div class="summary-detail">
+                    <span>Percentual de despesas</span>
+                    <strong id="expensePercentage">0%</strong>
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- NOVO LANÇAMENTO -->
+        <section class="panel section-panel" id="lancamentos">
+
+            <div class="panel-header">
+                <div>
+                    <h3>Novo Lançamento</h3>
+                    <p>Registre suas entradas e despesas.</p>
+                </div>
+
+                <span class="section-icon">
+                    <i data-lucide="plus-circle"></i>
+                </span>
+            </div>
+
+
+            <!-- ATALHOS RÁPIDOS -->
+            <div class="quick-expenses">
+
+                <span class="quick-label">Despesas rápidas:</span>
+
+                <button type="button" class="quick-expense-btn" data-quick="Luz">
+                    <i data-lucide="zap"></i>
+                    Luz
+                </button>
+
+                <button type="button" class="quick-expense-btn" data-quick="Farmácia">
+                    <i data-lucide="pill"></i>
+                    Farmácia
+                </button>
+
+                <button type="button" class="quick-expense-btn" data-quick="Mercado">
+                    <i data-lucide="shopping-cart"></i>
+                    Mercado
+                </button>
+
+                <button type="button" class="quick-expense-btn" data-quick="Combustível">
+                    <i data-lucide="fuel"></i>
+                    Combustível
+                </button>
+
+            </div>
+
+
+            <form id="transactionForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="transactionType">Tipo de lançamento</label>
+                        <select id="transactionType" required>
+                            <option value="expense">Despesa</option>
+                            <option value="income">Entrada</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="transactionName">Descrição</label>
+                        <input
+                            type="text"
+                            id="transactionName"
+                            placeholder="Ex: Conta de energia"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="transactionCategory">Categoria</label>
+                        <select id="transactionCategory" required>
+                            <option value="Moradia">Moradia</option>
+                            <option value="Alimentação">Alimentação</option>
+                            <option value="Saúde">Saúde</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Educação">Educação</option>
+                            <option value="Lazer">Lazer</option>
+                            <option value="Salário">Salário</option>
+                            <option value="Investimentos">Investimentos</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="transactionDate">Data</label>
+                        <input type="date" id="transactionDate" value="2026-09-01" required>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="transactionValue">Valor (R$)</label>
+                        <input
+                            type="number"
+                            id="transactionValue"
+                            placeholder="0,00"
+                            min="0.01"
+                            step="0.01"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="transactionPayment">Forma de pagamento</label>
+                        <select id="transactionPayment">
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="Pix">Pix</option>
+                            <option value="Débito">Cartão de débito</option>
+                            <option value="Crédito">Cartão de crédito</option>
+                            <option value="Transferência">Transferência</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <!-- PARCELAMENTO -->
+                <div class="installment-box">
+
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="isInstallment">
+                        <span>Este lançamento é parcelado?</span>
+                    </label>
+
+                    <div id="installmentFields" class="installment-fields hidden">
+
+                        <div class="form-group">
+                            <label for="installmentCount">Quantidade de parcelas</label>
+                            <input
+                                type="number"
+                                id="installmentCount"
+                                min="2"
+                                max="120"
+                                value="2"
+                            >
+                        </div>
+
+                        <p id="installmentPreview" class="installment-preview">
+                            As parcelas serão geradas automaticamente.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+                    <button type="reset" class="btn-secondary">
+                        Limpar
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        <i data-lucide="plus"></i>
+                        Salvar Lançamento
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- CARTÕES E LIMITES -->
+        <section class="section-panel" id="cartoes">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Cartões e Limites de Crédito</h2>
+                    <p>Gerencie suas faturas e utilização de crédito.</p>
+                </div>
+
+                <i data-lucide="credit-card"></i>
+            </div>
+
+
+            <div class="credit-grid">
+
+                <!-- NUBANK -->
+                <article class="credit-card nubank-card">
+
+                    <div class="credit-card-top">
+                        <div>
+                            <span class="credit-label">CARTÃO DE CRÉDITO</span>
+                            <h3>Nubank</h3>
+                        </div>
+
+                        <i data-lucide="credit-card"></i>
+                    </div>
+
+                    <div class="credit-value">
+                        <span>Valor da fatura</span>
+                        <h2 id="nubankBill">R$ 700,00</h2>
+                    </div>
+
+                    <div class="credit-info">
+                        <span>Vencimento</span>
+                        <strong id="nubankDueDate">10/10/2026</strong>
+                    </div>
+
+                    <div class="credit-actions">
+
+                        <button class="btn-credit-pay" id="payNubank">
+                            <i data-lucide="check-circle"></i>
+                            Pagar
+                        </button>
+
+                        <button class="btn-credit-edit" id="editNubank">
+                            <i data-lucide="edit"></i>
+                            Atualizar Fatura
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <!-- SICREDI -->
+                <article class="credit-card sicredi-card">
+
+                    <div class="credit-card-top">
+                        <div>
+                            <span class="credit-label">LIMITE DE CRÉDITO</span>
+                            <h3>Cheque Especial Sicredi</h3>
+                        </div>
+
+                        <i data-lucide="landmark"></i>
+                    </div>
+
+                    <div class="credit-value">
+                        <span>Valor utilizado</span>
+                        <h2 id="sicrediValue">R$ 500,00</h2>
+                    </div>
+
+                    <div class="credit-info">
+                        <span>Situação</span>
+                        <strong id="sicrediStatus">Em utilização</strong>
+                    </div>
+
+                    <div class="credit-actions">
+
+                        <button class="btn-credit-pay" id="paySicredi">
+                            <i data-lucide="check-circle"></i>
+                            Pagar / Quitar
+                        </button>
+
+                        <button class="btn-credit-edit" id="editSicredi">
+                            <i data-lucide="edit"></i>
+                            Ajustar Valor
+                        </button>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- EMPRÉSTIMOS -->
+        <section class="panel section-panel" id="emprestimos">
+
+            <div class="panel-header">
+                <div>
+                    <h3>Empréstimos e Parcelas</h3>
+                    <p>Acompanhe seus compromissos e quite suas dívidas.</p>
+                </div>
+
+                <i data-lucide="hand-coins"></i>
+            </div>
+
+
+            <div class="loan-summary-grid">
+
+                <div class="loan-summary-item">
+                    <span>Total contratado</span>
+                    <strong id="totalLoans">R$ 0,00</strong>
+                </div>
+
+                <div class="loan-summary-item">
+                    <span>Total pago</span>
+                    <strong id="paidLoans">R$ 0,00</strong>
+                </div>
+
+                <div class="loan-summary-item">
+                    <span>Saldo devedor</span>
+                    <strong id="remainingLoans">R$ 0,00</strong>
+                </div>
+
+            </div>
+
+
+            <div class="loan-list" id="loanList">
+                <!-- Gerado automaticamente pelo JavaScript -->
+            </div>
+
+        </section>
+
+
+        <!-- CONTAS FIXAS -->
+        <section class="panel section-panel" id="contas-fixas">
+
+            <div class="panel-header">
+                <div>
+                    <h3>Contas Fixas Recorrentes</h3>
+                    <p>Contas mensais geradas automaticamente.</p>
+                </div>
+
+                <i data-lucide="repeat"></i>
+            </div>
+
+
+            <div class="fixed-bills-grid">
+
+                <article class="fixed-bill-card">
+
+                    <div class="fixed-bill-icon">
+                        <i data-lucide="smartphone"></i>
+                    </div>
+
+                    <div class="fixed-bill-info">
+                        <h4>Plano Claro Celular</h4>
+                        <span>Vencimento todo dia 10</span>
+                        <strong>R$ 50,00</strong>
+                    </div>
+
+                    <span class="fixed-bill-status">Recorrente</span>
+
+                </article>
+
+
+                <article class="fixed-bill-card">
+
+                    <div class="fixed-bill-icon">
+                        <i data-lucide="wifi"></i>
+                    </div>
+
+                    <div class="fixed-bill-info">
+                        <h4>Wifi</h4>
+                        <span>Vencimento todo dia 10</span>
+                        <strong>R$ 100,00</strong>
+                    </div>
+
+                    <span class="fixed-bill-status">Recorrente</span>
+
+                </article>
+
+            </div>
+
+            <div class="fixed-bills-footer">
+                <i data-lucide="info"></i>
+                As contas serão geradas automaticamente a partir de setembro de 2026.
+            </div>
+
+        </section>
+
+
+        <!-- TABELA DE LANÇAMENTOS -->
+        <section class="panel section-panel">
+
+            <div class="panel-header transactions-header">
+
+                <div>
+                    <h3>Lançamentos do Mês</h3>
+                    <p>Consulte e gerencie suas movimentações.</p>
+                </div>
+
+                <button class="btn-export" id="exportCSV">
+                    <i data-lucide="download"></i>
+                    Exportar CSV
+                </button>
+
+            </div>
+
+
+            <div class="table-filters">
+
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+
+                    <input
+                        type="search"
+                        id="searchTransactions"
+                        placeholder="Buscar lançamento..."
+                    >
+                </div>
+
+
+                <select id="filterTransactions" aria-label="Filtrar lançamentos">
+                    <option value="all">Todos</option>
+                    <option value="income">Entradas</option>
+                    <option value="expense">Despesas</option>
+                </select>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="transactions-table">
+
+                    <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Data</th>
+                            <th>Pagamento</th>
+                            <th>Tipo</th>
+                            <th>Valor</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="transactionsTableBody">
+
+                        <tr>
+                            <td colspan="7" class="empty-table">
+                                Nenhum lançamento encontrado.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="table-footer">
+                <span id="transactionCount">0 lançamentos</span>
+            </div>
+
+        </section>
+
+
+        <!-- RODAPÉ -->
+        <footer class="app-footer">
+            <p>FinanLar © 2026 - Controle financeiro residencial.</p>
+            <span>
+                <i data-lucide="lock"></i>
+                Seus dados ficam armazenados no seu navegador.
+            </span>
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- MODAL GENÉRICO -->
+<div class="modal-overlay hidden" id="modalOverlay">
+
+    <div class="modal-container">
+
+        <div class="modal-header">
+            <h3 id="modalTitle">Editar informações</h3>
+
+            <button class="icon-button" id="closeModal" aria-label="Fechar modal">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <div class="modal-body" id="modalBody">
+            <!-- Conteúdo dinâmico -->
+        </div>
+
+        <div class="modal-footer" id="modalFooter">
+            <button class="btn-secondary" id="cancelModal">Cancelar</button>
+            <button class="btn-primary" id="confirmModal">Confirmar</button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- NOTIFICAÇÕES -->
+<div class="toast-container" id="toastContainer"></div>
+
+
+<!-- JAVASCRIPT -->
+<script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-sync.js"></script>
+
+<script>
+    // Inicialização dos ícones Lucide
+    lucide.createIcons();
+</script>
+
+</body>
+</html>
+
